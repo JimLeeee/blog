@@ -1,0 +1,1267 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>沧海一声笑</title><link>https://blog.yonflee.us.kg/</link><description>Recent content on 沧海一声笑</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 20 Sep 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.yonflee.us.kg/index.xml" rel="self" type="application/rss+xml"/><item><title>acme自动申请证书</title><link>https://blog.yonflee.us.kg/p/acme%E8%87%AA%E5%8A%A8%E7%94%B3%E8%AF%B7%E8%AF%81%E4%B9%A6/</link><pubDate>Fri, 20 Sep 2024 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/p/acme%E8%87%AA%E5%8A%A8%E7%94%B3%E8%AF%B7%E8%AF%81%E4%B9%A6/</guid><description>&lt;img src="https://pic.jiasu.in/1728899697359.png" alt="Featured image of post acme自动申请证书" />&lt;h3 id="ipv6-only">ipv6 only
+&lt;/h3>&lt;p>ipv6 only的机器没有v4入口，但是一般自带v4出口，带宽很小，只有v6带宽高
+系统默认的解析顺序是ipv6，对于支持ipv6的网站来说速度没有影响，但是对于只有ipv4的网站，走v4速度会很慢&lt;/p>
+&lt;p>这时我们可以安装warp代理v4流量，然后从warp v6出口，这时速度会有大幅提升&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">wget -N https://gitlab.com/fscarmen/warp/-/raw/main/menu.sh &amp;amp;&amp;amp; bash menu.sh [option] [lisence/url/token]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>选择warp 4
+然后修改里面的engpoint为官方默认的&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">root@wawo:~# cat /etc/wireguard/warp.conf
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">[Interface]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PrivateKey = nAT67OpRgxE4wTBNwAdkz8ydslrp7MCguEb/TlzxD+A=
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Address = 172.16.0.2/32
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Address = 2606:4700:110:855f:fc54:6680:6544:e68c/128
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DNS = 1.1.1.1,8.8.8.8,8.8.4.4,2606:4700:4700::1111,2001:4860:4860::8888,2001:4860:4860::8844
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">MTU = 1420
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PostUp = ip -4 rule add from 10.10.57.99 lookup main
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PostDown = ip -4 rule delete from 10.10.57.99 lookup main
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PostUp = ip -6 rule add from 2400:c620:2c:a291::1 lookup main
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PostDown = ip -6 rule delete from 2400:c620:2c:a291::1 lookup main
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">#Reserved = [226,135,179]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">#Table = off
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">#PostUp = /etc/wireguard/NonGlobalUp.sh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">#PostDown = /etc/wireguard/NonGlobalDown.sh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">[Peer]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PublicKey = bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">AllowedIPs = 0.0.0.0/0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">#AllowedIPs = ::/0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Endpoint = engage.cloudflareclient.com:2408
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PersistentKeepalive = 30
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>&lt;img src="https://pic.jiasu.in/1728899697359.png"
+loading="lazy"
+alt="image"
+>&lt;/p>
+&lt;/blockquote></description></item><item><title>ipv6 only的机器指定出站提高网速</title><link>https://blog.yonflee.us.kg/p/ipv6-only%E7%9A%84%E6%9C%BA%E5%99%A8%E6%8C%87%E5%AE%9A%E5%87%BA%E7%AB%99%E6%8F%90%E9%AB%98%E7%BD%91%E9%80%9F/</link><pubDate>Fri, 20 Sep 2024 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/p/ipv6-only%E7%9A%84%E6%9C%BA%E5%99%A8%E6%8C%87%E5%AE%9A%E5%87%BA%E7%AB%99%E6%8F%90%E9%AB%98%E7%BD%91%E9%80%9F/</guid><description>&lt;img src="https://pic.jiasu.in/1728899697359.png" alt="Featured image of post ipv6 only的机器指定出站提高网速" />&lt;h3 id="ipv6-only">ipv6 only
+&lt;/h3>&lt;p>ipv6 only的机器没有v4入口，但是一般自带v4出口，带宽很小，只有v6带宽高
+系统默认的解析顺序是ipv6，对于支持ipv6的网站来说速度没有影响，但是对于只有ipv4的网站，走v4速度会很慢&lt;/p>
+&lt;p>这时我们可以安装warp代理v4流量，然后从warp v6出口，这时速度会有大幅提升&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">wget -N https://gitlab.com/fscarmen/warp/-/raw/main/menu.sh &amp;amp;&amp;amp; bash menu.sh [option] [lisence/url/token]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>选择warp 4
+然后修改里面的engpoint为官方默认的&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">root@wawo:~# cat /etc/wireguard/warp.conf
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">[Interface]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PrivateKey = nAT67OpRgxE4wTBNwAdkz8ydslrp7MCguEb/TlzxD+A=
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Address = 172.16.0.2/32
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Address = 2606:4700:110:855f:fc54:6680:6544:e68c/128
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DNS = 1.1.1.1,8.8.8.8,8.8.4.4,2606:4700:4700::1111,2001:4860:4860::8888,2001:4860:4860::8844
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">MTU = 1420
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PostUp = ip -4 rule add from 10.10.57.99 lookup main
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PostDown = ip -4 rule delete from 10.10.57.99 lookup main
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PostUp = ip -6 rule add from 2400:c620:2c:a291::1 lookup main
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PostDown = ip -6 rule delete from 2400:c620:2c:a291::1 lookup main
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">#Reserved = [226,135,179]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">#Table = off
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">#PostUp = /etc/wireguard/NonGlobalUp.sh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">#PostDown = /etc/wireguard/NonGlobalDown.sh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">[Peer]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PublicKey = bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">AllowedIPs = 0.0.0.0/0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">#AllowedIPs = ::/0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Endpoint = engage.cloudflareclient.com:2408
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">PersistentKeepalive = 30
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>&lt;img src="https://pic.jiasu.in/1728899697359.png"
+loading="lazy"
+alt="image"
+>&lt;/p>
+&lt;/blockquote></description></item><item><title>开设lxc玩具机</title><link>https://blog.yonflee.us.kg/p/%E5%BC%80%E8%AE%BElxc%E7%8E%A9%E5%85%B7%E6%9C%BA/</link><pubDate>Fri, 20 Sep 2024 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/p/%E5%BC%80%E8%AE%BElxc%E7%8E%A9%E5%85%B7%E6%9C%BA/</guid><description>&lt;img src="https://blog.yonflee.us.kg/p/%E5%BC%80%E8%AE%BElxc%E7%8E%A9%E5%85%B7%E6%9C%BA/cover.jpg" alt="Featured image of post 开设lxc玩具机" />&lt;h3 id="在vps上开设虚拟化lxc玩具">在vps上开设虚拟化lxc玩具
+&lt;/h3>&lt;p>参考https://www.spiritlhl.net/guide/incus/incus_install.html&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">curl -L https://raw.githubusercontent.com/oneclickvirt/incus/main/scripts/incus_install.sh -o incus_install.sh &amp;amp;&amp;amp; chmod +x incus_install.sh &amp;amp;&amp;amp; bash incus_install.sh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">开机
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">./buildone.sh test 1 256 2 20001 20002 20025 500 500 N debian11
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>pve适合kvm虚拟化的vps，incus适合Lxc&lt;/p>
+&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://unsplash.com/@pawel_czerwinski" target="_blank" rel="noopener"
+>Pawel Czerwinski&lt;/a> on &lt;a class="link" href="https://unsplash.com/" target="_blank" rel="noopener"
+>Unsplash&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>如何给vps添加ipv6并获得无限代理ip</title><link>https://blog.yonflee.us.kg/p/%E5%A6%82%E4%BD%95%E7%BB%99vps%E6%B7%BB%E5%8A%A0ipv6%E5%B9%B6%E8%8E%B7%E5%BE%97%E6%97%A0%E9%99%90%E4%BB%A3%E7%90%86ip/</link><pubDate>Fri, 20 Sep 2024 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/p/%E5%A6%82%E4%BD%95%E7%BB%99vps%E6%B7%BB%E5%8A%A0ipv6%E5%B9%B6%E8%8E%B7%E5%BE%97%E6%97%A0%E9%99%90%E4%BB%A3%E7%90%86ip/</guid><description>&lt;img src="https://blog.yonflee.us.kg/p/%E5%A6%82%E4%BD%95%E7%BB%99vps%E6%B7%BB%E5%8A%A0ipv6%E5%B9%B6%E8%8E%B7%E5%BE%97%E6%97%A0%E9%99%90%E4%BB%A3%E7%90%86ip/cover.jpg" alt="Featured image of post 如何给vps添加ipv6并获得无限代理ip" />&lt;h3 id="hurricane-electric-简称he-隧道服务简介">Hurricane Electric (简称：HE) 隧道服务简介
+&lt;/h3>&lt;p>Hurricane Electric (简称：HE) 是一家位于美国的全球互联网服务提供商。该公司运营了世界上以对等数最大 IPv6 网络，同时也提供免费的 IPv6 隧道服务，其隧道服务可以追溯到 2001 年。虽然经过多年的发展 IPv6 已经相当普及，但依然还是有部分 VPS 商家由于各种各样的原因没有给 VPS 标配 IPv6 地址，有的需要加钱、有的甚至不给加钱。如果此时有访问 IPv6 网络的需求，就可以接入 HE Tun­nel Bro­ker 提供的 IPv6 隧道免费给 IPv4 VPS 主机添加公网 IPv6 地址来获得 IPv6 网络的访问能力。&lt;/p>
+&lt;h2 id="he-ipv6-隧道的使用场景与局限性">HE IPv6 隧道的使用场景与局限性
+&lt;/h2>&lt;h3 id="使用场景">使用场景：
+&lt;/h3>&lt;ul>
+&lt;li>给 VPS 服务器、家用设备接入 IPv6 公网访问能力&lt;/li>
+&lt;li>使 IPv4 VPS 可访问 IPv6 网络，比如给 IPv6 Only VPS 做 SSH 跳板&lt;/li>
+&lt;li>HE IPv6 地址可绕过部分网站的 IP 访问限制：
+&lt;ul>
+&lt;li>解锁 Netflix 非自制剧 (已失效)&lt;/li>
+&lt;li>解锁 ChatGPT 访问限制 (只验证可访问，未验证是否稳定不封号)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="局限性">局限性：
+&lt;/h3>&lt;ul>
+&lt;li>无法使用 HE 提供的 IPv6 公网 IP 接入 Cloudflare CDN 。&lt;/li>
+&lt;li>滥用严重，IP 评分机构标记为高风险。使用 HE IPv6 访问网站会遇到以下问题：
+&lt;ul>
+&lt;li>部分网站为了防止资源滥用，可能会限制访问、频繁弹人机验证、无法注册。&lt;/li>
+&lt;li>银行、购物等安全要求高的网站可能会判定为欺诈行为、导致砍单，严重会导致封号。&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="he-tunnel-broker-设置教程">HE Tunnel Broker 设置教程
+&lt;/h2>&lt;h3 id="创建-tunnel-broker-ipv6-隧道">创建 Tunnel Broker IPv6 隧道
+&lt;/h3>&lt;ol>
+&lt;li>注册 Tunnel Broker 账号。&lt;/li>
+&lt;li>点击左侧的 &lt;code>Create Regular Tunnel&lt;/code>（创建常规隧道）。&lt;/li>
+&lt;li>输入 VPS 的公网 IP 地址。&lt;/li>
+&lt;li>根据 VPS 的位置选择一个合适的节点。&lt;/li>
+&lt;li>页面拉到最下方，点击 &lt;code>Create Tunnel&lt;/code>（创建隧道）。&lt;/li>
+&lt;/ol>
+&lt;p>在 &lt;code>Tunnel Details&lt;/code> 页面可以看到创建的 IPv6 隧道的详细信息，其中 &lt;code>Client IPv6 Address&lt;/code> 是申请到的公网 IPv6 地址。&lt;/p>
+&lt;h3 id="获取配置示例">获取配置示例
+&lt;/h3>&lt;p>在 &lt;code>Tunnel Details&lt;/code> 页面有个 &lt;code>Example Configuration&lt;/code> 选项卡，在这里你可以选择合适的配置示例。就比如这里有 De­bian/​Ubuntu 的 &lt;code>interfaces&lt;/code> 配置文件示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># /etc/network/interfaces.d/he-ipv6&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">auto he-ipv6
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">iface he-ipv6 inet6 v4tunnel
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> address 2001:xxx:xxxx:xxxx::2
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> netmask &lt;span class="m">64&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> endpoint 216.66.84.46
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">local&lt;/span> 233.xxx.xxx.233
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ttl &lt;span class="m">255&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> gateway 2001:xxx:xxxx:xxxx::1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">EOF
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>TIPS: 如果是 NAT VPS 或 VPC 内网方案则需要将&lt;code>local&lt;/code>字段后面的公网 IP 替换为内网 IP 。获取命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ip route get 8.8.8.8 &lt;span class="p">|&lt;/span> grep -oP &lt;span class="s1">&amp;#39;src \K\S+&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="启用-ipv6-隧道">启用 IPv6 隧道
+&lt;/h3>&lt;ol>
+&lt;li>安装网络工具包&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo apt update
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo apt install net-tools iproute2 -y
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="2">
+&lt;li>启动 he-ipv6 网络接口&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo ifup he-ipv6
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>TIPS：若提示 &lt;code>ifup: unknown interface he-ipv6&lt;/code> ，则添加 &lt;code>source /etc/network/interfaces.d/*&lt;/code>到&lt;code>/etc/network/interfaces&lt;/code>文件：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;source /etc/network/interfaces.d/*&amp;#39;&lt;/span> &amp;gt;&amp;gt;/etc/network/interfaces
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="3">
+&lt;li>启用后执行 &lt;code>ifconfig&lt;/code> 命令，这时应该有一个 he-ipv6 接口，类似下面这样：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">he-ipv6: &lt;span class="nv">flags&lt;/span>&lt;span class="o">=&lt;/span>209&amp;lt;UP,POINTOPOINT,RUNNING,NOARP&amp;gt; mtu &lt;span class="m">1480&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> inet6 2001:xxx:xxxx:xxxx::2 prefixlen &lt;span class="m">64&lt;/span> scopeid 0x0&amp;lt;global&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> inet6 fe80::xxxx:xxxx prefixlen &lt;span class="m">64&lt;/span> scopeid 0x20&amp;lt;link&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> sit txqueuelen &lt;span class="m">1000&lt;/span> &lt;span class="o">(&lt;/span>IPv6-in-IPv4&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> RX packets &lt;span class="m">11605&lt;/span> bytes &lt;span class="m">3127821&lt;/span> &lt;span class="o">(&lt;/span>3.1 MB&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> RX errors &lt;span class="m">0&lt;/span> dropped &lt;span class="m">0&lt;/span> overruns &lt;span class="m">0&lt;/span> frame &lt;span class="m">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> TX packets &lt;span class="m">13811&lt;/span> bytes &lt;span class="m">2403522&lt;/span> &lt;span class="o">(&lt;/span>2.4 MB&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> TX errors &lt;span class="m">0&lt;/span> dropped &lt;span class="m">0&lt;/span> overruns &lt;span class="m">0&lt;/span> carrier &lt;span class="m">0&lt;/span> collisions &lt;span class="m">0&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>若没有生效可以尝试重启网络：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo systemctl restart networking
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="其它操作">其它操作
+&lt;/h3>&lt;h4 id="检测-ipv6-支持">检测 IPv6 支持
+&lt;/h4>&lt;p>执行 &lt;code>ping6 google.com&lt;/code> 命令，能 ping 通说明 VPS 已经支持 IPv6 网络了。&lt;/p>
+&lt;h4 id="nat-vps-的额外设置">NAT VPS 的额外设置
+&lt;/h4>&lt;p>IPv4 NAT VPS 除了前面提到的替换 IP 操作以外，可能还需要一些额外的设置，否则可能还是无法访问 IPv6 网络。&lt;/p>
+&lt;ol>
+&lt;li>配置防火墙允许 41 端口入站：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ufw allow &lt;span class="m">41&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="2">
+&lt;li>添加相关的路由规则：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">route -A inet6 add ::/0 dev he-ipv6
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="dns-设置优化">DNS 设置优化
+&lt;/h4>&lt;p>TIPS: 以下设置仅针对操作系统 DNS ，代理软件应单独设置内置的 DNS 和 IP 分流策略，具体参考相关软件文档中的 DNS 和路由部分。&lt;/p>
+&lt;h5 id="选择合适的-dns-解析服务器">选择合适的 DNS 解析服务器
+&lt;/h5>&lt;p>因为通过 IPv6 隧道去请求可能会拖慢 DNS 解析速度，所以一般不建议在系统中使用 IPv6 地址的 DNS。&lt;/p>
+&lt;p>编辑 &lt;code>/etc/resolv.conf&lt;/code> 文件，更改 DNS 解析服务器为支持查询 AAAA 记录的 DNS 服务器，比如 Google Public DNS：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">nameserver 8.8.8.8
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">nameserver 8.8.4.4
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h5 id="优先使用-ipv4-网络">优先使用 IPv4 网络
+&lt;/h5>&lt;p>默认情况下 IPv6 网络优先级会高于 IPv4 ，为了防止 IPv6 隧道拖慢 VPS 的正常网速，可以设置优先使用 IPv4 网络。同时也能减轻了对 HE Tun­nel Bro­ker 节点的网络压力，合理使用宝贵的免费资源。&lt;/p>
+&lt;p>编辑 &lt;code>/etc/gai.conf&lt;/code> 文件，在末尾添加下面这行配置：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">precedence ::ffff:0:0/96 &lt;span class="m">100&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>一键添加命令如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">echo&lt;/span> &lt;span class="s1">&amp;#39;precedence ::ffff:0:0/96 100&amp;#39;&lt;/span> &lt;span class="p">|&lt;/span> sudo tee -a /etc/gai.conf
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>完事执行 &lt;code>curl ip.p3terx.com&lt;/code> 命令，显示 VPS 的 IPv4 地址则代表成功。&lt;/p>
+&lt;h3 id="删除-he-ipv6-隧道">删除 HE IPv6 隧道
+&lt;/h3>&lt;p>不想用了，或者想使用其它方式访问 IPv6 网络时，记得先删除。&lt;/p>
+&lt;ol>
+&lt;li>停用隧道：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo ifdown he-ipv6
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="2">
+&lt;li>删除 he-ipv6 网络接口配置文件（若没有删除重启后会自动启用）：&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo rm -f /etc/network/interfaces.d/he-ipv6
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="无限ipv6代理-http-proxy-ipv6-pool">无限ipv6代理 Http Proxy IPv6 Pool
+&lt;/h3>&lt;p>Make every request from a separate IPv6 address.&lt;/p>
+&lt;p>&lt;a class="link" href="https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/" target="_blank" rel="noopener"
+>https://zu1k.com/posts/tutorials/http-proxy-ipv6-pool/&lt;/a>&lt;/p>
+&lt;h2 id="tutorial">Tutorial
+&lt;/h2>&lt;p>Assuming you already have an entire IPv6 subnet routed to your server, for me I purchased &lt;a class="link" href="https://www.vultr.com/?ref=9039594-8H" target="_blank" rel="noopener"
+>Vultr&amp;rsquo;s server&lt;/a> to get one.&lt;/p>
+&lt;p>Get your IPv6 subnet prefix and interface name, for me is &lt;code>2001:19f0:6001:48e4::/64&lt;/code> and &lt;code>enp1s0&lt;/code>.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ ip a
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">......
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2: enp1s0: &amp;lt;BROADCAST,MULTICAST,ALLMULTI,UP,LOWER_UP&amp;gt; mtu &lt;span class="m">1500&lt;/span> qdisc fq state UP group default qlen &lt;span class="m">1000&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ......
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> inet6 2001:19f0:6001:48e4:5400:3ff:fefa:a71d/64 scope global dynamic mngtmpaddr
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> valid_lft 2591171sec preferred_lft 603971sec
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ......
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Add route via default internet interface&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">ip route add &lt;span class="nb">local&lt;/span> 2001:19f0:6001:48e4::/64 dev enp1s0
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Open &lt;code>ip_nonlocal_bind&lt;/code> for binding any IP address:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">sysctl net.ipv6.ip_nonlocal_bind&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>For IPv6 NDP, install &lt;code>ndppd&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">apt install ndppd
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>then edit &lt;code>/etc/ndppd.conf&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">route-ttl 30000
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">proxy &amp;lt;INTERFACE-NAME&amp;gt; {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> router no
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> timeout 500
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ttl 30000
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rule &amp;lt;IP6_SUBNET&amp;gt; {
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> static
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>(edit the file to match your configuration)&lt;/p>
+&lt;p>Restart the service:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">service ndppd restart
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Now you can test by using &lt;code>curl&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ curl --interface 2001:19f0:6001:48e4::1 ipv6.ip.sb
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2001:19f0:6001:48e4::1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ curl --interface 2001:19f0:6001:48e4::2 ipv6.ip.sb
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2001:19f0:6001:48e4::2
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Great!&lt;/p>
+&lt;p>Finally, use the http proxy provided by this project:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">$ &lt;span class="k">while&lt;/span> true&lt;span class="p">;&lt;/span> &lt;span class="k">do&lt;/span> curl -x http://127.0.0.1:51080 ipv6.ip.sb&lt;span class="p">;&lt;/span> &lt;span class="k">done&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2001:19f0:6001:48e4:971e:f12c:e2e7:d92a
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2001:19f0:6001:48e4:6d1c:90fe:ee79:1123
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2001:19f0:6001:48e4:f7b9:b506:99d7:1be9
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2001:19f0:6001:48e4:a06a:393b:e82f:bffc
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2001:19f0:6001:48e4:245f:8272:2dfb:72ce
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2001:19f0:6001:48e4:df9e:422c:f804:94f7
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2001:19f0:6001:48e4:dd48:6ba2:ff76:f1af
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2001:19f0:6001:48e4:1306:4a84:570c:f829
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2001:19f0:6001:48e4:6f3:4eb:c958:ddfa
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2001:19f0:6001:48e4:aa26:3bf9:6598:9e82
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2001:19f0:6001:48e4:be6b:6a62:f8f7:a14d
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2001:19f0:6001:48e4:b598:409d:b946:17c
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://unsplash.com/@pawel_czerwinski" target="_blank" rel="noopener"
+>Pawel Czerwinski&lt;/a> on &lt;a class="link" href="https://unsplash.com/" target="_blank" rel="noopener"
+>Unsplash&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>使用cloudflared搭建webssh</title><link>https://blog.yonflee.us.kg/p/%E4%BD%BF%E7%94%A8cloudflared%E6%90%AD%E5%BB%BAwebssh/</link><pubDate>Fri, 20 Sep 2024 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/p/%E4%BD%BF%E7%94%A8cloudflared%E6%90%AD%E5%BB%BAwebssh/</guid><description>&lt;img src="https://blog.yonflee.us.kg/p/%E4%BD%BF%E7%94%A8cloudflared%E6%90%AD%E5%BB%BAwebssh/cover.jpg" alt="Featured image of post 使用cloudflared搭建webssh" />&lt;h3 id="下载">下载
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">curl -L &lt;span class="s1">&amp;#39;https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64&amp;#39;&lt;/span> -o /usr/local/bin/cloudflared
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>登录认证&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">cloudflared tunnel login
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="2">
+&lt;li>创建域名，得到隧道ID&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">cloudflared tunnel route dns ssh awssgssh.543083.xyz
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="3">
+&lt;li>修改配置文件，添加 SSH 代理&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">cat &amp;gt; /root/.cloudflared/config.yml &amp;lt;&amp;lt; EOF
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">tunnel: e7425241-3827-4e3a-830e-dde066ae6915
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">credentials-file: /root/.cloudflared/e7425241-3827-4e3a-830e-dde066ae6915.json
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">protocol: h2mux
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ingress:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # 第五个，反代 SSH 服务
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> - hostname: awssgssh.543083.xyz
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> service: ssh://localhost:1522
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # 最后记得添加一个默认 404
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> - service: http_status:404
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">EOF
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="4">
+&lt;li>验证&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">cloudflared tunnel ingress validate
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cloudflared tunnel ingress rule https://awssgssh.543083.xyz
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="5">
+&lt;li>启动测试&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">cloudflared tunnel --config ~/.cloudflared/config.yml run e7425241-3827-4e3a-830e-dde066ae6915
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="6">
+&lt;li>安装系统服务&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">cloudflared --config /root/.cloudflared/config.yml service install
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="7">
+&lt;li>配置页面 application
+参考：使用 Cloudflare Tunnels 通过 Web SSH 访问服务器
+参考：https://blog.hellowood.dev/posts/%E4%BD%BF%E7%94%A8cloudflare-tunnels%E9%80%9A%E8%BF%87web-ssh%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1%E5%99%A8/&lt;/li>
+&lt;/ol>
+&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://unsplash.com/@pawel_czerwinski" target="_blank" rel="noopener"
+>Pawel Czerwinski&lt;/a> on &lt;a class="link" href="https://unsplash.com/" target="_blank" rel="noopener"
+>Unsplash&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>如何无广告看油管视频</title><link>https://blog.yonflee.us.kg/p/%E5%A6%82%E4%BD%95%E6%97%A0%E5%B9%BF%E5%91%8A%E7%9C%8B%E6%B2%B9%E7%AE%A1%E8%A7%86%E9%A2%91/</link><pubDate>Tue, 10 Sep 2024 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/p/%E5%A6%82%E4%BD%95%E6%97%A0%E5%B9%BF%E5%91%8A%E7%9C%8B%E6%B2%B9%E7%AE%A1%E8%A7%86%E9%A2%91/</guid><description>&lt;img src="https://blog.yonflee.us.kg/p/%E5%A6%82%E4%BD%95%E6%97%A0%E5%B9%BF%E5%91%8A%E7%9C%8B%E6%B2%B9%E7%AE%A1%E8%A7%86%E9%A2%91/unsplash.jpg" alt="Featured image of post 如何无广告看油管视频" />&lt;h2 id="1-部署vless节点">1. 部署vless节点
+&lt;/h2>&lt;ul>
+&lt;li>注册cloudflare账号&lt;/li>
+&lt;li>部署worker节点&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell-session" data-lang="shell-session">&lt;span class="line">&lt;span class="cl">&lt;span class="go">参考https://github.com/cmliu/edgetunnel项目
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="2-使用工具优选ipv6节点">2. 使用工具优选ipv6节点
+&lt;/h2>&lt;p>使用上一个优选ip视频方法，进行ipv6优选,填入节点中&lt;/p>
+&lt;h2 id="3-设置ipv6路由优先">3. 设置ipv6路由优先
+&lt;/h2>&lt;p>设置客户端路由，优先使用ipv6，这样节点在解析油管域名时会优先使用ipv6地址&lt;/p>
+&lt;h2 id="4-enjoy">4. Enjoy!!!
+&lt;/h2>&lt;p>&lt;img src="https://unsplash.com/fr/photos/une-table-blanche-avec-un-miroir-et-un-parasol-dessus-ZWq7ede_hHI"
+loading="lazy"
+alt="enjoy"
+>&lt;/p>
+&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://unsplash.com/@pawel_czerwinski" target="_blank" rel="noopener"
+>Pawel Czerwinski&lt;/a> on &lt;a class="link" href="https://unsplash.com/" target="_blank" rel="noopener"
+>Unsplash&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>如何使用iptables自建proxyip</title><link>https://blog.yonflee.us.kg/p/%E4%BD%BF%E7%94%A8iptables%E8%87%AA%E5%BB%BAproxyip/</link><pubDate>Tue, 06 Aug 2024 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/p/%E4%BD%BF%E7%94%A8iptables%E8%87%AA%E5%BB%BAproxyip/</guid><description>&lt;img src="https://blog.yonflee.us.kg/p/%E4%BD%BF%E7%94%A8iptables%E8%87%AA%E5%BB%BAproxyip/cover.jpg" alt="Featured image of post 如何使用iptables自建proxyip" />&lt;h2 id="1-安装-iptables">1. 安装 iptables：
+&lt;/h2>&lt;ul>
+&lt;li>Ubuntu / Debian&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell-session" data-lang="shell-session">&lt;span class="line">&lt;span class="cl">&lt;span class="go">apt update &amp;amp;&amp;amp; apt install sudo -y &amp;amp;&amp;amp; sudo apt install iptables iptables-persistent -y
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>CentOS&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell-session" data-lang="shell-session">&lt;span class="line">&lt;span class="cl">&lt;span class="go">yum update -y &amp;amp;&amp;amp; yum install sudo -y &amp;amp;&amp;amp; sudo yum install iptables iptables-services -y
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>Alpine&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell-session" data-lang="shell-session">&lt;span class="line">&lt;span class="cl">&lt;span class="go">apk update &amp;amp;&amp;amp; apk add sudo bash iptables
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如果提示失败可以尝试添加DNS后再重新运行以上命令&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell-session" data-lang="shell-session">&lt;span class="line">&lt;span class="cl">&lt;span class="go">echo -e &amp;#34;nameserver 1.1.1.1\nnameserver 8.8.8.8\nnameserver 2606:4700:4700::1111\nnameserver 2001:4860:4860::8888&amp;#34; | tee /etc/resolv.conf
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="2-修改-sysctl-配置">2. 修改 sysctl 配置：
+&lt;/h2>&lt;p>启用 IPv4 和 IPv6 的流量转发。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell-session" data-lang="shell-session">&lt;span class="line">&lt;span class="cl">&lt;span class="go">echo &amp;#39;net.ipv4.ip_forward=1&amp;#39; | sudo tee -a /etc/sysctl.conf
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">echo &amp;#39;net.ipv6.conf.all.forwarding=1&amp;#39; | sudo tee -a /etc/sysctl.conf
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">sudo sysctl -p
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>接下来不会提供 IPv4 的部署方法，如果你有能力，可以自己修改命令去实现，如果你不会，说明你还不明白这个操作以为着什么，所以请不要自建 IPv4 的 ProxyIP！&lt;/p>
+&lt;h2 id="3-设置-ip6tables-转发-ipv6-流量规则">3. 设置 ip6tables 转发 IPv6 流量规则：
+&lt;/h2>&lt;p>先获取转发目标IP地址，推荐自行 解析 Cloudflare CDN 地址获得 CFIP，执行nslookup chat.openai.com，例如返回内容如下&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell-session" data-lang="shell-session">&lt;span class="line">&lt;span class="cl">&lt;span class="go">root:~# nslookup chat.openai.com
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">Server: 1.1.1.1
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">Address: 1.1.1.1#53
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="go">Non-authoritative answer:
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">chat.openai.com canonical name = chat.openai.com.cdn.cloudflare.net.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">Name: chat.openai.com.cdn.cloudflare.net
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">Address: 104.18.37.228
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">Name: chat.openai.com.cdn.cloudflare.net
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">Address: 172.64.150.28
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">Name: chat.openai.com.cdn.cloudflare.net
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">Address: 2606:4700:4400::6812:25e4
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">Name: chat.openai.com.cdn.cloudflare.net
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">Address: 2606:4700:4400::ac40:961c
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">如果你的 VPS 只有 IPv6 出口，可以执行如下命令
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="go">sudo ip6tables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination [2606:4700:4400::ac40:961c]:443
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">sudo ip6tables -t nat -A POSTROUTING -p tcp -d 2606:4700:4400::ac40:961c --dport 443 -j MASQUERADE
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>通过以上步骤，你应该能够成功地在只有 IPv6 的 443 端口的流量转发到指定的 IPv6 地址 2606:4700:4400::ac40:961c。&lt;/p>
+&lt;p>你可以使用以下命令来查看 ip6tables 中的当前规则，确认规则已正确添加：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell-session" data-lang="shell-session">&lt;span class="line">&lt;span class="cl">&lt;span class="go">sudo ip6tables -t nat -L -v -n
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="4-保存-ip6tables-规则">4. 保存 ip6tables 规则：
+&lt;/h2>&lt;p>要确保在重启后规则依然有效，你需要将规则保存到文件中，并设置系统在启动时加载这些规则。&lt;/p>
+&lt;p>保存规则：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell-session" data-lang="shell-session">&lt;span class="line">&lt;span class="cl">&lt;span class="go">sudo ip6tables-save &amp;gt; /etc/iptables/rules.v6
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="5-重启系统或者手动加载规则">5. 重启系统或者手动加载规则
+&lt;/h2>&lt;p>你可以重启系统来验证规则是否被正确加载，或者手动加载保存的规则：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell-session" data-lang="shell-session">&lt;span class="line">&lt;span class="cl">&lt;span class="go">sudo ip6tables-restore &amp;lt; /etc/iptables/rules.v6
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="6-后悔药">6. 后悔药
+&lt;/h2>&lt;p>清除现有的转发规则&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell-session" data-lang="shell-session">&lt;span class="line">&lt;span class="cl">&lt;span class="go">sudo ip6tables -t nat -F
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://unsplash.com/@pawel_czerwinski" target="_blank" rel="noopener"
+>Pawel Czerwinski&lt;/a> on &lt;a class="link" href="https://unsplash.com/" target="_blank" rel="noopener"
+>Unsplash&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>如何使用nginx stream模块自建proxyip</title><link>https://blog.yonflee.us.kg/p/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8nginx-stream%E6%A8%A1%E5%9D%97%E8%87%AA%E5%BB%BAproxyip/</link><pubDate>Tue, 06 Aug 2024 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/p/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8nginx-stream%E6%A8%A1%E5%9D%97%E8%87%AA%E5%BB%BAproxyip/</guid><description>&lt;img src="https://blog.yonflee.us.kg/p/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8nginx-stream%E6%A8%A1%E5%9D%97%E8%87%AA%E5%BB%BAproxyip/cover.jpg" alt="Featured image of post 如何使用nginx stream模块自建proxyip" />&lt;h2 id="转发cf域名">转发cf域名
+&lt;/h2>&lt;p>&lt;a class="link" href="https://blog.tanglu.me/cloudflare_proxy_ip/" target="_blank" rel="noopener"
+>https://blog.tanglu.me/cloudflare_proxy_ip/&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>如何避免被扫&lt;/li>
+&lt;li>演示alpine上
+1、安装nginx和stream模块&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell-session" data-lang="shell-session">&lt;span class="line">&lt;span class="cl">&lt;span class="go">apk add nginx nginx-mod-stream
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>2、添加配置cf.conf&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell-session" data-lang="shell-session">&lt;span class="line">&lt;span class="cl">&lt;span class="go">sg-ac:/etc/nginx/stream.d# ls -lrt
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">total 4
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">-rw-r--r-- 1 root root 849 Sep 5 01:56 cf.conf
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">sg-ac:/etc/nginx/stream.d# cat cf.conf
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> # 定义允许的上游服务器
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> upstream allowed_backend {
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> server 104.18.32.47:443;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> }
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="go"> # 定义一个拒绝连接的空上游（可以是无效的 IP 或者本地地址）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> upstream reject_backend {
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> server 127.0.0.1:1; # 无效的服务器地址，用于拒绝连接
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> }
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> # 使用 map 指令根据 SNI 值选择上游
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> map $ssl_preread_server_name $backend {
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> # 允许的域名
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> worker.543083.xyz allowed_backend;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> blog.543083.xyz allowed_backend;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="go"> # 其他所有 SNI 值都将被拒绝
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> default reject_backend;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> }
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> # 定义服务器块，监听443端口
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> server {
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> listen 443;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="go"> # 启用 SSL 预读取功能以获取 SNI 信息
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> ssl_preread on;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go">&lt;/span>&lt;span class="err">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">&lt;/span>&lt;span class="go"> # 根据 SNI 选择上游服务器
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> proxy_pass $backend;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="go"> }
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>其中allowed_backend是任意的cloudflare cdn节点，可以nslookup chatgpt.com得到一个ip，map中定义允许的反代域名，可以是自己的开了小黄云的cf域名，其他域名禁止访问，这样防止被扫出来当节点使用&lt;/p></description></item><item><title>Markdown Syntax Guide</title><link>https://blog.yonflee.us.kg/p/markdown-syntax-guide/</link><pubDate>Thu, 07 Sep 2023 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/p/markdown-syntax-guide/</guid><description>&lt;p>This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.&lt;/p>
+&lt;h2 id="headings">Headings
+&lt;/h2>&lt;p>The following HTML &lt;code>&amp;lt;h1&amp;gt;&lt;/code>—&lt;code>&amp;lt;h6&amp;gt;&lt;/code> elements represent six levels of section headings. &lt;code>&amp;lt;h1&amp;gt;&lt;/code> is the highest section level while &lt;code>&amp;lt;h6&amp;gt;&lt;/code> is the lowest.&lt;/p>
+&lt;h1 id="h1">H1
+&lt;/h1>&lt;h2 id="h2">H2
+&lt;/h2>&lt;h3 id="h3">H3
+&lt;/h3>&lt;h4 id="h4">H4
+&lt;/h4>&lt;h5 id="h5">H5
+&lt;/h5>&lt;h6 id="h6">H6
+&lt;/h6>&lt;h2 id="paragraph">Paragraph
+&lt;/h2>&lt;p>Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate ma dolestendit peritin re plis aut quas inctum laceat est volestemque commosa as cus endigna tectur, offic to cor sequas etum rerum idem sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus ratem aut omnimi, sitatur? Quiatem. Nam, omnis sum am facea corem alique molestrunt et eos evelece arcillit ut aut eos eos nus, sin conecerem erum fuga. Ri oditatquam, ad quibus unda veliamenimin cusam et facea ipsamus es exerum sitate dolores editium rerore eost, temped molorro ratiae volorro te reribus dolorer sperchicium faceata tiustia prat.&lt;/p>
+&lt;p>Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.&lt;/p>
+&lt;h2 id="blockquotes">Blockquotes
+&lt;/h2>&lt;p>The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a &lt;code>footer&lt;/code> or &lt;code>cite&lt;/code> element, and optionally with in-line changes such as annotations and abbreviations.&lt;/p>
+&lt;h3 id="blockquote-without-attribution">Blockquote without attribution
+&lt;/h3>&lt;blockquote>
+&lt;p>Tiam, ad mint andaepu dandae nostion secatur sequo quae.
+&lt;strong>Note&lt;/strong> that you can use &lt;em>Markdown syntax&lt;/em> within a blockquote.&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="blockquote-with-attribution">Blockquote with attribution
+&lt;/h3>&lt;blockquote>
+&lt;p>Don&amp;rsquo;t communicate by sharing memory, share memory by communicating.&lt;br>
+— &lt;cite>Rob Pike&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>&lt;/cite>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="tables">Tables
+&lt;/h2>&lt;p>Tables aren&amp;rsquo;t part of the core Markdown spec, but Hugo supports supports them out-of-the-box.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: left">Name&lt;/th>
+&lt;th style="text-align: left">Age&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: left">Bob&lt;/td>
+&lt;td style="text-align: left">27&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align: left">Alice&lt;/td>
+&lt;td style="text-align: left">23&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="inline-markdown-within-tables">Inline Markdown within tables
+&lt;/h3>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: left">Italics&lt;/th>
+&lt;th style="text-align: left">Bold&lt;/th>
+&lt;th style="text-align: left">Code&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: left">&lt;em>italics&lt;/em>&lt;/td>
+&lt;td style="text-align: left">&lt;strong>bold&lt;/strong>&lt;/td>
+&lt;td style="text-align: left">&lt;code>code&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align: left">A&lt;/th>
+&lt;th style="text-align: left">B&lt;/th>
+&lt;th style="text-align: left">C&lt;/th>
+&lt;th style="text-align: left">D&lt;/th>
+&lt;th style="text-align: left">E&lt;/th>
+&lt;th style="text-align: left">F&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align: left">Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/td>
+&lt;td style="text-align: left">Phasellus ultricies, sapien non euismod aliquam, dui ligula tincidunt odio, at accumsan nulla sapien eget ex.&lt;/td>
+&lt;td style="text-align: left">Proin eleifend dictum ipsum, non euismod ipsum pulvinar et. Vivamus sollicitudin, quam in pulvinar aliquam, metus elit pretium purus&lt;/td>
+&lt;td style="text-align: left">Proin sit amet velit nec enim imperdiet vehicula.&lt;/td>
+&lt;td style="text-align: left">Ut bibendum vestibulum quam, eu egestas turpis gravida nec&lt;/td>
+&lt;td style="text-align: left">Sed scelerisque nec turpis vel viverra. Vivamus vitae pretium sapien&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="code-blocks">Code Blocks
+&lt;/h2>&lt;h3 id="code-block-with-backticks">Code block with backticks
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&amp;lt;!doctype html&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">html&lt;/span> &lt;span class="na">lang&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;en&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">head&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">charset&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;utf-8&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">title&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>Example HTML5 Document&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">title&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">head&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">body&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">p&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>Test&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">p&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">body&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">html&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="code-block-indented-with-four-spaces">Code block indented with four spaces
+&lt;/h3>&lt;pre>&lt;code>&amp;lt;!doctype html&amp;gt;
+&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
+&amp;lt;head&amp;gt;
+&amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt;
+&amp;lt;title&amp;gt;Example HTML5 Document&amp;lt;/title&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+&amp;lt;p&amp;gt;Test&amp;lt;/p&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;h3 id="diff-code-block">Diff code block
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-diff" data-lang="diff">&lt;span class="line">&lt;span class="cl">[dependencies.bevy]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git = &amp;#34;https://github.com/bevyengine/bevy&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">rev = &amp;#34;11f52b8c72fc3a568e8bb4a4cd1f3eb025ac2e13&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">- features = [&amp;#34;dynamic&amp;#34;]
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="gd">&lt;/span>&lt;span class="gi">+ features = [&amp;#34;jpeg&amp;#34;, &amp;#34;dynamic&amp;#34;]
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="one-line-code-block">One line code block
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">p&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>A paragraph&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">p&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="list-types">List Types
+&lt;/h2>&lt;h3 id="ordered-list">Ordered List
+&lt;/h3>&lt;ol>
+&lt;li>First item&lt;/li>
+&lt;li>Second item&lt;/li>
+&lt;li>Third item&lt;/li>
+&lt;/ol>
+&lt;h3 id="unordered-list">Unordered List
+&lt;/h3>&lt;ul>
+&lt;li>List item&lt;/li>
+&lt;li>Another item&lt;/li>
+&lt;li>And another item&lt;/li>
+&lt;/ul>
+&lt;h3 id="nested-list">Nested list
+&lt;/h3>&lt;ul>
+&lt;li>Fruit
+&lt;ul>
+&lt;li>Apple&lt;/li>
+&lt;li>Orange&lt;/li>
+&lt;li>Banana&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Dairy
+&lt;ul>
+&lt;li>Milk&lt;/li>
+&lt;li>Cheese&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="other-elements--abbr-sub-sup-kbd-mark">Other Elements — abbr, sub, sup, kbd, mark
+&lt;/h2>&lt;p>&lt;abbr title="Graphics Interchange Format">GIF&lt;/abbr> is a bitmap image format.&lt;/p>
+&lt;p>H&lt;sub>2&lt;/sub>O&lt;/p>
+&lt;p>X&lt;sup>n&lt;/sup> + Y&lt;sup>n&lt;/sup> = Z&lt;sup>n&lt;/sup>&lt;/p>
+&lt;p>Press &lt;kbd>CTRL&lt;/kbd> + &lt;kbd>ALT&lt;/kbd> + &lt;kbd>Delete&lt;/kbd> to end the session.&lt;/p>
+&lt;p>Most &lt;mark>salamanders&lt;/mark> are nocturnal, and hunt for insects, worms, and other small creatures.&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>The above quote is excerpted from Rob Pike&amp;rsquo;s &lt;a class="link" href="https://www.youtube.com/watch?v=PAAkCSZUG1c" target="_blank" rel="noopener"
+>talk&lt;/a> during Gopherfest, November 18, 2015.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></description></item><item><title>Image gallery</title><link>https://blog.yonflee.us.kg/p/image-gallery/</link><pubDate>Sat, 26 Aug 2023 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/p/image-gallery/</guid><description>&lt;img src="https://blog.yonflee.us.kg/p/image-gallery/2.jpg" alt="Featured image of post Image gallery" />&lt;p>Hugo theme Stack supports the creation of interactive image galleries using Markdown. It&amp;rsquo;s powered by &lt;a class="link" href="https://photoswipe.com/" target="_blank" rel="noopener"
+>PhotoSwipe&lt;/a> and its syntax was inspired by &lt;a class="link" href="https://typlog.com/" target="_blank" rel="noopener"
+>Typlog&lt;/a>.&lt;/p>
+&lt;p>To use this feature, the image must be in the same directory as the Markdown file, as it uses Hugo&amp;rsquo;s page bundle feature to read the dimensions of the image. &lt;strong>External images are not supported.&lt;/strong>&lt;/p>
+&lt;h2 id="syntax">Syntax
+&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">![&lt;span class="nt">Image 1&lt;/span>](&lt;span class="na">1.jpg&lt;/span>) ![&lt;span class="nt">Image 2&lt;/span>](&lt;span class="na">2.jpg&lt;/span>) ![&lt;span class="nt">Image 1&lt;/span>](&lt;span class="na">1.jpg&lt;/span>) ![&lt;span class="nt">Image 2&lt;/span>](&lt;span class="na">2.jpg&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="result">Result
+&lt;/h2>&lt;p>&lt;img src="https://blog.yonflee.us.kg/p/image-gallery/1.jpg"
+width="2000"
+height="1400"
+srcset="https://blog.yonflee.us.kg/p/image-gallery/1_hu4574578169203714971.jpg 480w, https://blog.yonflee.us.kg/p/image-gallery/1_hu9042511268598201431.jpg 1024w"
+loading="lazy"
+alt="Image 1"
+class="gallery-image"
+data-flex-grow="142"
+data-flex-basis="342px"
+> &lt;img src="https://blog.yonflee.us.kg/p/image-gallery/2.jpg"
+width="1500"
+height="2250"
+srcset="https://blog.yonflee.us.kg/p/image-gallery/2_hu10699635480308914167.jpg 480w, https://blog.yonflee.us.kg/p/image-gallery/2_hu1741040415904021193.jpg 1024w"
+loading="lazy"
+alt="Image 2"
+class="gallery-image"
+data-flex-grow="66"
+data-flex-basis="160px"
+>&lt;/p>
+&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://unsplash.com/@mymind" target="_blank" rel="noopener"
+>mymind&lt;/a> and &lt;a class="link" href="https://unsplash.com/@lukechesser" target="_blank" rel="noopener"
+>Luke Chesser&lt;/a> on &lt;a class="link" href="https://unsplash.com/" target="_blank" rel="noopener"
+>Unsplash&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>Shortcodes</title><link>https://blog.yonflee.us.kg/p/shortcodes/</link><pubDate>Fri, 25 Aug 2023 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/p/shortcodes/</guid><description>&lt;img src="https://blog.yonflee.us.kg/p/shortcodes/cover.jpg" alt="Featured image of post Shortcodes" />&lt;p>For more details, check out the &lt;a class="link" href="https://stack.jimmycai.com/writing/shortcodes" target="_blank" rel="noopener"
+>documentation&lt;/a>.&lt;/p>
+&lt;h2 id="bilibili-video">Bilibili video
+&lt;/h2>
+&lt;div class="video-wrapper">
+&lt;iframe src="https://player.bilibili.com/player.html?as_wide=1&amp;amp;high_quality=1&amp;amp;page=1&amp;bvid=BV1d4411N7zD"
+scrolling="no"
+frameborder="no"
+framespacing="0"
+allowfullscreen="true"
+>
+&lt;/iframe>
+&lt;/div>
+&lt;h2 id="tencent-video">Tencent video
+&lt;/h2>
+&lt;div class="video-wrapper">
+&lt;iframe src="https://v.qq.com/txp/iframe/player.html?vid=g0014r3khdw&amp;auto=0"
+scrolling="no"
+frameborder="no"
+framespacing="0"
+allowfullscreen="true"
+>
+&lt;/iframe>
+&lt;/div>
+&lt;h2 id="youtube-video">YouTube video
+&lt;/h2>&lt;div class="video-wrapper">
+&lt;iframe loading="lazy"
+src="https://www.youtube.com/embed/0qwALOOvUik"
+allowfullscreen
+title="YouTube Video"
+>
+&lt;/iframe>
+&lt;/div>
+&lt;h2 id="generic-video-file">Generic video file
+&lt;/h2>&lt;div class="video-wrapper">
+&lt;video
+controls
+src="https://www.w3schools.com/tags/movie.mp4"
+>
+&lt;p>
+Your browser doesn't support HTML5 video. Here is a
+&lt;a href="https://www.w3schools.com/tags/movie.mp4">link to the video&lt;/a> instead.
+&lt;/p>
+&lt;/video>
+&lt;/div>
+&lt;h2 id="gist">Gist
+&lt;/h2>&lt;script src="https://gist.github.com/CaiJimmy/e2751a943de10b2a5b3a8a6c2120cb86.js">&lt;/script>
+&lt;h2 id="gitlab">GitLab
+&lt;/h2>&lt;script
+type="application/javascript"
+src="https://gitlab.com/-/snippets/2589724.js"
+>&lt;/script>
+&lt;h2 id="quote">Quote
+&lt;/h2>&lt;blockquote>
+&lt;p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p>&lt;span class="cite">&lt;span>― &lt;/span>&lt;span>A famous person, &lt;/span>&lt;a href="https://en.wikipedia.org/wiki/Book">&lt;cite>The book they wrote&lt;/cite>&lt;/a>&lt;/span>&lt;/blockquote>
+&lt;hr>
+&lt;blockquote>
+&lt;p>Photo by &lt;a class="link" href="https://unsplash.com/@codioful" target="_blank" rel="noopener"
+>Codioful&lt;/a> on &lt;a class="link" href="https://unsplash.com/photos/WDSN62Qdxuk" target="_blank" rel="noopener"
+>Unsplash&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>Math Typesetting</title><link>https://blog.yonflee.us.kg/p/math-typesetting/</link><pubDate>Thu, 24 Aug 2023 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/p/math-typesetting/</guid><description>&lt;p>Stack has built-in support for math typesetting using &lt;a class="link" href="https://katex.org/" target="_blank" rel="noopener"
+>KaTeX&lt;/a>.&lt;/p>
+&lt;p>&lt;strong>It&amp;rsquo;s not enabled by default side-wide,&lt;/strong> but you can enable it for individual posts by adding &lt;code>math: true&lt;/code> to the front matter. Or you can enable it side-wide by adding &lt;code>math = true&lt;/code> to the &lt;code>params.article&lt;/code> section in &lt;code>config.toml&lt;/code>.&lt;/p>
+&lt;h2 id="inline-math">Inline math
+&lt;/h2>&lt;p>This is an inline mathematical expression: $\varphi = \dfrac{1+\sqrt5}{2}= 1.6180339887…$&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">$\varphi = \dfrac{1+\sqrt5}{2}= 1.6180339887…$
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="block-math">Block math
+&lt;/h2>&lt;p>$$
+\varphi = 1+\frac{1} {1+\frac{1} {1+\frac{1} {1+\cdots} } }
+$$&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">$$
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> \varphi = 1+\frac{1} {1+\frac{1} {1+\frac{1} {1+\cdots} } }
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$$
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>$$
+f(x) = \int_{-\infty}^\infty\hat f(\xi),e^{2 \pi i \xi x},d\xi
+$$&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-markdown" data-lang="markdown">&lt;span class="line">&lt;span class="cl">$$
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> f(x) = \int_{-\infty}^\infty\hat f(\xi)\,e^{2 \pi i \xi x}\,d\xi
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$$
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>归档</title><link>https://blog.yonflee.us.kg/archives/</link><pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/archives/</guid><description/></item><item><title>链接</title><link>https://blog.yonflee.us.kg/%E9%93%BE%E6%8E%A5/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/%E9%93%BE%E6%8E%A5/</guid><description>&lt;p>To use this feature, add &lt;code>links&lt;/code> section to frontmatter.&lt;/p>
+&lt;p>This page&amp;rsquo;s frontmatter:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">links&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">title&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">GitHub&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">GitHub is the world&amp;#39;s largest software development platform.&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">website&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https://github.com&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">title&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TypeScript&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">website&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https://www.typescriptlang.org&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ts-logo-128.jpg&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>image&lt;/code> field accepts both local and external images.&lt;/p></description></item><item><title>搜索</title><link>https://blog.yonflee.us.kg/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.yonflee.us.kg/search/</guid><description/></item></channel></rss>
